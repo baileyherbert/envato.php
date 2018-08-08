@@ -79,7 +79,10 @@ namespace Herbert\Envato {
             $client = $this->createHttpClient();
 
             // Build the HTTP query
-            $query = http_build_query($variables);
+	        if(!empty($variables)) {
+		        $query = http_build_query($variables);
+		        $uri  .= '?' . $query;
+	        }
 
             // Send the request
             $response = $client->request('GET', $uri, [
