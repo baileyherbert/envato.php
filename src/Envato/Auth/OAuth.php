@@ -185,6 +185,15 @@ namespace Herbert\Envato\Auth {
 
             // Handle token requests
             if ($property == 'token') {
+                if (!isset($this->generatedToken)) {
+                    if (isset($_GET['code'])) {
+                        $this->generateToken(trim($_GET['code']));
+                    }
+                    else {
+                        return null;
+                    }
+                }
+
                 return $this->generatedToken->token;
             }
 
