@@ -51,7 +51,8 @@ namespace Herbert {
             $this->procedure = $auth;
 
             // Get the schema
-            $this->schema = (new Schema())();
+            $o = (new Schema());
+            $this->schema = $o();
         }
 
         public function __get($property) {
