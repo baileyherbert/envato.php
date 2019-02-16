@@ -15,7 +15,7 @@ An API client for Envato in PHP, with simplified OAuth, token storage, and reque
 - [Catalog](#catalog)
     - [Look up a public collection](#look-up-a-public-collection)
     - [Look up a single item](#look-up-a-single-item)
-    - [Look up a single WordPress theme/plugin version](#look-up-a-single-wordpress-theme/plugin-version)
+    - [Look up a single WordPress theme/plugin version](#look-up-a-single-wordpress-themeplugin-version)
     - [Search for items](#search-for-items)
     - [Search for comments](#search-for-comments)
     - [Popular items by site](#popular-items-by-site)
