@@ -49,6 +49,7 @@ An API client for Envato in PHP, with simplified OAuth, token storage, and reque
     - [Request Errors](#request-errors)
 - [Examples](#examples)
     - [Verifying Purchase Codes](#verifying-purchase-codes)
+- [Contributors](#contributors)
 
 ## Notes
 
@@ -417,3 +418,10 @@ else {
     echo $response->error;
 }
 ```
+
+## Contributors
+
+Special thanks to the following people for contributing to this package:
+
+- @gdarko
+- @Dibbyo456
