@@ -17,7 +17,7 @@ namespace Herbert\Envato {
                 'catalog' => [
                     'collection' => '/v3/market/catalog/collection',
                     'item' => '/v3/market/catalog/item',
-                    'item-version' => '/v3/market/catalog/item-version',
+                    'item_version' => '/v3/market/catalog/item-version',
                     'items' => '/v1/discovery/search/search/item',
                     'comments' => '/v1/discovery/search/search/comment',
                     'popular' => '/v1/market/popular:{site}.json',

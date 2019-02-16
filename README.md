@@ -194,7 +194,7 @@ $client->catalog->item(['id' => 12345]);
 ### Look up a single WordPress theme/plugin version
 
 ```php
-$client->catalog->item-version(['id' => 12345]);
+$client->catalog->item_version(['id' => 12345]);
 ```
 
 ### Search for items
@@ -362,7 +362,7 @@ $client->market->site(['site' => 'codecanyon']);
 
 ## Handling Errors & Exceptions
 
-All exceptions in this libary are under the `Herbert\Envato\Exceptions` namespace. 
+All exceptions in this libary are under the `Herbert\Envato\Exceptions` namespace.
 
 ### Authorization Errors
 
