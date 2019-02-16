@@ -423,5 +423,5 @@ else {
 
 Special thanks to the following people for contributing to this package:
 
-- @gdarko
-- @Dibbyo456
+- [Darko Gjorgjijoski](https://github.com/gdarko)
+- [Arijit Biswas](https://github.com/Dibbyo456)
