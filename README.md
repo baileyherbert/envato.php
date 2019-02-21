@@ -213,13 +213,13 @@ $client->catalog->comments(['item_id' => 12345]);
 ### Popular items by site
 
 ```php
-$client->catalog->popular(['site' => 'codecanyon.net']);
+$client->catalog->popular(['site' => 'codecanyon']);
 ```
 
 ### Categories by site
 
 ```php
-$client->catalog->categories(['site' => 'codecanyon.net']);
+$client->catalog->categories(['site' => 'codecanyon']);
 ```
 
 ### Prices for a particular item
@@ -231,19 +231,19 @@ $client->catalog->prices(['item_id' => 12345]);
 ### New items by site and category
 
 ```php
-$client->catalog->prices(['site' => 'codecanyon.net', 'category' => 'php-scripts']);
+$client->catalog->newest(['site' => 'codecanyon', 'category' => 'php-scripts']);
 ```
 
 ### Find featured items
 
 ```php
-$client->catalog->featured(['site' => 'codecanyon.net']);
+$client->catalog->featured(['site' => 'codecanyon']);
 ```
 
 ### Random new items
 
 ```php
-$client->catalog->prices(['site' => 'codecanyon.net']);
+$client->catalog->random(['site' => 'codecanyon']);
 ```
 
 
