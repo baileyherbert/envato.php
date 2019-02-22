@@ -194,8 +194,10 @@ catch (TooManyRequestsException $e) {
     // Get the number of seconds remaining (float)
     $secondsRemaining = $e->getSecondsRemaining();
 
-    //
+    // Get the timestamp for when we can make our next request
     $timestamp = $e->getRetryTime();
+
+    // Sleep until the rate limiting has ended
     $e->wait();
 }
 ```
