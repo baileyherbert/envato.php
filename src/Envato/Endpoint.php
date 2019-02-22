@@ -109,7 +109,10 @@ namespace Herbert\Envato {
 
             // 429 Too Many Requests
             elseif ($response->getStatusCode() == 429) {
-                throw new TooManyRequestsException();
+                throw new TooManyRequestsException(
+                    $response->hasHeader('Retry-After') ?
+                    intval($response->getHeader('Retry-After')[0]) : 0
+                );
             }
 
             // Generate response object

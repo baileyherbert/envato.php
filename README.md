@@ -12,6 +12,7 @@ An API client for Envato in PHP, with simplified OAuth, token storage, and reque
     - [Persistent OAuth](#persistent-oauth)
 - [Sending Requests](#sending-requests)
     - [Getting Request Time](#getting-request-time)
+    - [Rate Limiting](#rate-limiting)
 - [Catalog](#catalog)
     - [Look up a public collection](#look-up-a-public-collection)
     - [Look up a single item](#look-up-a-single-item)
@@ -176,6 +177,28 @@ $response = $client->profile->portfolio([
 ### Getting Request Time
 
 To determine how long a request took to execute (in seconds), you can reference the `$response->time` property.
+
+
+### Rate Limiting
+
+If you're being rate limited, the client will throw a `TooManyRequestsException` exception. The exception instance has
+methods to help work with the rate limit.
+
+```php
+use Herbert\Envato\Exceptions\TooManyRequestsException;
+
+try {
+    $item = $client->catalog->item(['id' => 1234567]);
+}
+catch (TooManyRequestsException $e) {
+    // Get the number of seconds remaining (float)
+    $secondsRemaining = $e->getSecondsRemaining();
+
+    //
+    $timestamp = $e->getRetryTime();
+    $e->wait();
+}
+```
 
 
 ## Catalog
