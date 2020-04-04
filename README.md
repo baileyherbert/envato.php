@@ -92,7 +92,7 @@ $oauth = new Herbert\Envato\Auth\OAuth([
 ]);
 
 // Get the token (returns null if unavailable)
-$token = $oauth->token;
+$token = $oauth->auth;
 
 // Redirect the user if they're not authorized yet
 if (!$token) {
@@ -128,7 +128,7 @@ if (isset($_SESSION['oauth_session'])) {
 
 // No saved session, so let's start a new one
 else {
-    if ($oauth->token) {
+    if ($oauth->auth) {
         // Save the OAuth session
         $_SESSION['oauth_session'] = $oauth->session;
     }
@@ -140,7 +140,7 @@ else {
 }
 
 // Create the client
-$client = new Herbert\EnvatoClient($oauth->token);
+$client = new Herbert\EnvatoClient($oauth->auth);
 ```
 
 - The `$oauth->session` member will contain a JSON string with data for the current authorization.

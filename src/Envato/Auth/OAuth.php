@@ -176,8 +176,12 @@ namespace Herbert\Envato\Auth {
             if ($property == 'auth') {
                 // Only if we've just returned from authorization
                 if (isset($_GET['code'])) {
-                    return ($this->generatedToken) ?: $this->generateToken(trim($_GET['code']));
+                    if (!$this->generatedToken) {
+                        $this->generateToken(trim($_GET['code']));
+                    }
                 }
+
+                return $this->generatedToken;
             }
 
             // Handle session requests
