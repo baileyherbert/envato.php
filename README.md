@@ -309,7 +309,7 @@ $client->profile->portfolio(['username' => 'baileyherbert']);
 ### Get a user's newest items
 
 ```php
-$client->profile->portfolio(['username' => 'baileyherbert', 'site' => 'codecanyon.net']);
+$client->profile->portfolio(['username' => 'baileyherbert', 'site' => 'codecanyon']);
 ```
 
 
