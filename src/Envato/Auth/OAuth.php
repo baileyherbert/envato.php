@@ -15,8 +15,10 @@ namespace Herbert\Envato\Auth {
      * Utility for authenticating with the Envato API using OAuth.
      * @package Herbert\Envato\Auth
      *
-     * @property AuthProcedure $auth Authentication token object.
+     * @property AuthProcedure $auth Authentication token object to use when creating a client.
      * @property string $session JSON session string which can be stored and loaded back into a Token object for re-use.
+     * @property int $expires The timestamp at which the access token expires.
+     * @property string $token The current access token as a string.
      */
     class OAuth implements AuthProcedure
     {
