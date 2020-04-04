@@ -58,8 +58,6 @@ This API client is fully working though not necessarily completed. Of course, an
 
 - This client does **not** disable SSL. It ships with a Certificate Authority bundle and uses this bundle to verify the Envato API's SSL certificate, instead of relying on the system's often-unavailable certificate.
 
-- Major overhauls to response objects and OAuth are planned in a future `3.0` release.
-
 ## Installation
 
 Include this into your project using Composer. It will be autoloaded.
@@ -448,5 +446,5 @@ else {
 
 Special thanks to the following people for contributing to this package:
 
-- [Darko Gjorgjijoski](https://github.com/gdarko)
-- [Arijit Biswas](https://github.com/Dibbyo456)
+- [@gdarko](https://github.com/gdarko)
+- [@Dibbyo456](https://github.com/Dibbyo456)
