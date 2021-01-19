@@ -2,54 +2,53 @@
 
 An API client for Envato in PHP, with simplified OAuth, token storage, and request sending.
 
-## Contents
-
 - [Notes](#notes)
 - [Installation](#installation)
 - [Authentication](#authentication)
-    - [Personal Token](#personal-token)
-    - [OAuth](#oauth)
-    - [Persistent OAuth](#persistent-oauth)
+  - [Personal Token](#personal-token)
+  - [OAuth](#oauth)
+  - [Persistent OAuth](#persistent-oauth)
 - [Sending Requests](#sending-requests)
-    - [Getting Request Time](#getting-request-time)
-    - [Rate Limiting](#rate-limiting)
+  - [Getting Request Time](#getting-request-time)
+  - [Rate Limiting](#rate-limiting)
 - [Catalog](#catalog)
-    - [Look up a public collection](#look-up-a-public-collection)
-    - [Look up a single item](#look-up-a-single-item)
-    - [Look up a single WordPress theme/plugin version](#look-up-a-single-wordpress-themeplugin-version)
-    - [Search for items](#search-for-items)
-    - [Search for comments](#search-for-comments)
-    - [Popular items by site](#popular-items-by-site)
-    - [Categories by site](#categories-by-site)
-    - [Prices for a particular item](#prices-for-a-particular-item)
-    - [New items by site and category](#new-items-by-site-and-category)
-    - [Find featured items](#find-featured-items)
-    - [Random new items](#random-new-items)
+  - [Look up a public collection](#look-up-a-public-collection)
+  - [Look up a single item](#look-up-a-single-item)
+  - [Look up a single WordPress theme/plugin version](#look-up-a-single-wordpress-themeplugin-version)
+  - [Search for items](#search-for-items)
+  - [Search for comments](#search-for-comments)
+  - [Popular items by site](#popular-items-by-site)
+  - [Categories by site](#categories-by-site)
+  - [Prices for a particular item](#prices-for-a-particular-item)
+  - [New items by site and category](#new-items-by-site-and-category)
+  - [Find featured items](#find-featured-items)
+  - [Random new items](#random-new-items)
 - [Profile](#profile)
-    - [List all of current user's collections](#list-all-of-current-users-collections)
-    - [Look up a collection by ID](#look-up-a-collection-by-id)
-    - [Get a user's profile details](#get-a-users-profile-details)
-    - [List a user's badges](#list-a-users-badges)
-    - [Get a user's items by site](#get-a-users-items-by-site)
-    - [Get a user's newest items](#get-a-users-newest-items)
+  - [List all of current user's collections](#list-all-of-current-users-collections)
+  - [Look up a collection by ID](#look-up-a-collection-by-id)
+  - [Get a user's profile details](#get-a-users-profile-details)
+  - [List a user's badges](#list-a-users-badges)
+  - [Get a user's items by site](#get-a-users-items-by-site)
+  - [Get a user's newest items](#get-a-users-newest-items)
 - [User](#user)
-    - [List an author's sales](#list-an-authors-sales)
-    - [Look up a sale by purchase code](#look-up-a-sale-by-purchase-code)
-    - [List a buyer's purchases](#list-a-buyers-purchases)
-    - [Look up a buyer's purchase by code](#look-up-a-buyers-purchase-by-code)
-    - [Get private account details](#get-private-account-details)
-    - [Get the current user's username](#get-the-current-users-username)
-    - [Get the current user's email](#get-the-current-users-email)
-    - [Get the user's sales by month](#get-the-users-sales-by-month)
+  - [List an author's sales](#list-an-authors-sales)
+  - [Look up a sale by purchase code](#look-up-a-sale-by-purchase-code)
+  - [List a buyer's purchases](#list-a-buyers-purchases)
+  - [Look up a buyer's purchase by code](#look-up-a-buyers-purchase-by-code)
+  - [Download a buyer's purchase](#download-a-buyers-purchase)
+  - [Get private account details](#get-private-account-details)
+  - [Get the current user's username](#get-the-current-users-username)
+  - [Get the current user's email](#get-the-current-users-email)
+  - [Get the user's sales by month](#get-the-users-sales-by-month)
 - [Market](#market)
-    - [Get total number of users](#get-total-number-of-users)
-    - [Get total number of items](#get-total-number-of-items)
-    - [Get total number of items by site](#get-total-number-of-items-by-site)
-- [Handling Errors & Exceptions](#handling-errors-exceptions)
-    - [Authorization Errors](#authorization-errors)
-    - [Request Errors](#request-errors)
+  - [Get total number of users](#get-total-number-of-users)
+  - [Get total number of items](#get-total-number-of-items)
+  - [Get total number of items by site](#get-total-number-of-items-by-site)
+- [Handling Errors & Exceptions](#handling-errors--exceptions)
+  - [Authorization Errors](#authorization-errors)
+  - [Request Errors](#request-errors)
 - [Examples](#examples)
-    - [Verifying Purchase Codes](#verifying-purchase-codes)
+  - [Verifying Purchase Codes](#verifying-purchase-codes)
 - [Contributors](#contributors)
 
 ## Notes
@@ -340,6 +339,13 @@ $client->user->purchases();
 $client->user->purchase(['code' => '*****']);
 ```
 
+### Download a buyer's purchase
+
+```php
+$client->user->download(['purchase_code' => '*****']);
+$client->user->download(['item_id' => '123456']);
+```
+
 ### Get private account details
 
 ```php
@@ -444,7 +450,8 @@ else {
 
 ## Contributors
 
-Special thanks to the following people for contributing to this package:
+Special thanks to the following contributors for their help in maintaining this package:
 
 - [@gdarko](https://github.com/gdarko)
 - [@Dibbyo456](https://github.com/Dibbyo456)
+- [@evrpress](https://github.com/evrpress)
