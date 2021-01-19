@@ -44,6 +44,7 @@ namespace Herbert\Envato {
                     'sale' => '/v3/market/author/sale',
                     'purchases' => '/v3/market/buyer/list-purchases',
                     'purchase' => '/v3/market/buyer/purchase',
+                    'download' => '/v3/market/buyer/download',
                     'details' => '/v1/market/private/user/account.json',
                     'username' => '/v1/market/private/user/username.json',
                     'email' => '/v1/market/private/user/email.json',
