@@ -150,7 +150,7 @@ namespace Herbert\Envato {
                     'Authorization' => 'Bearer ' . $this->client->getToken()
                 ],
                 'verify' => dirname(dirname(__DIR__)) . '/data/ca-bundle.crt',
-                'base_uri' => 'https://api.envato.com/'
+                'base_uri' => $this->client->baseUri
             ]);
         }
     }

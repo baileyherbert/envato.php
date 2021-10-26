@@ -33,6 +33,13 @@ namespace Herbert {
         private $schema;
 
         /**
+         * The base URI for all requests to the API. You should change this if using a sandbox API instead.
+         *
+         * @var string
+         */
+        public $baseUri = 'https://api.envato.com/';
+
+        /**
          * Starts a new client connection with the specified authentication procedure. The procedure must be
          * completed prior to the constructor being called; that is, it must have already established the token
          * and expiration time.
