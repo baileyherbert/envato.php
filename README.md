@@ -455,3 +455,4 @@ Special thanks to the following contributors for their help in maintaining this 
 - [@gdarko](https://github.com/gdarko)
 - [@Dibbyo456](https://github.com/Dibbyo456)
 - [@evrpress](https://github.com/evrpress)
+- [@Demonicious](https://github.com/Demonicious)
