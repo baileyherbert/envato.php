@@ -12,4 +12,4 @@ define('TEST_OAUTH_CODE', '');
 
 // Configure a personal token for testing
 // Register one here: https://build.envato.com/my-apps/
-define('TEST_PERSONAL_TOKEN', 's6IsdWrJL3NsBhqvUy6Q3XiImvdZlwkn');
+define('TEST_PERSONAL_TOKEN', 'zImroz44UrMDJcglOmLGKiALa3wrjdf6');

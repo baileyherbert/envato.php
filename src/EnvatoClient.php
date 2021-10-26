@@ -8,6 +8,7 @@ namespace Herbert {
     use Herbert\Envato\Exceptions\AuthenticationException;
     use Herbert\Envato\Exceptions\InvalidTokenException;
     use Herbert\Envato\Exceptions\NotAuthenticatedException;
+    use Herbert\Envato\RequestWriter;
     use Herbert\Envato\Schema;
 
     /**
@@ -40,6 +41,20 @@ namespace Herbert {
         public $baseUri = 'https://api.envato.com/';
 
         /**
+         * The user agent to send with requests. For high volume users, it is recommended to overwrite this and use it
+         * to specify why/how you're using the API. The Envato Team can see this agent and may use it to adjust your
+         * rate limit.
+         */
+        public $userAgent = 'https://github.com/baileyherbert/envato.php';
+
+        /**
+         * The request writer instance is used to send outgoing requests to the API.
+         *
+         * @var RequestWriter
+         */
+        public $request;
+
+        /**
          * Starts a new client connection with the specified authentication procedure. The procedure must be
          * completed prior to the constructor being called; that is, it must have already established the token
          * and expiration time.
@@ -56,6 +71,7 @@ namespace Herbert {
 
             // Store the procedure
             $this->procedure = $auth;
+            $this->request = new RequestWriter($this);
 
             // Get the schema
             $o = (new Schema());
@@ -78,12 +94,29 @@ namespace Herbert {
          */
         public function getToken() {
             if ($this->procedure->expires <= time()) {
-                if ($this->procedure instanceof OAuth)
-                $this->procedure->refresh();
+                if ($this->procedure instanceof OAuth) {
+                    $this->procedure->refresh();
+                }
             }
 
             return $this->procedure->token;
         }
+
+        /**
+         * Returns the unique Envato ID, permission scopes, and TTL for the authenticated user and token.
+         */
+        public function getIdentity() {
+            return (object) $this->request->get('/whoami')->raw();
+        }
+
+        /**
+         * Returns the unique Envato ID for the authenticated user.
+         */
+        public function getUserId() {
+            $identity = $this->getIdentity();
+            return $identity->userId;
+        }
+
     }
 
 }

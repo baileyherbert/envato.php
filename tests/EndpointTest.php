@@ -39,4 +39,14 @@ class EndpointTest extends TestCase
         // Must be a ResultSet
         $this->assertInstanceOf(ResultSet::class, $items, 'Endpoint performed but did not return a ResultSet.');
     }
+
+    public function testRetrieveIdentity() {
+        $client = new EnvatoClient(new Token(TEST_PERSONAL_TOKEN));
+        $identity = $client->getIdentity();
+        $userId = $client->getUserId();
+
+        $this->assertInternalType('int', $userId);
+        $this->assertInternalType('array', $identity->scopes);
+        $this->assertEquals($userId, $identity->userId);
+    }
 }

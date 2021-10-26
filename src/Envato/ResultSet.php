@@ -26,6 +26,13 @@ namespace Herbert\Envato {
                 return $this->$property;
             }
         }
+
+        /**
+         * Returns the raw response as an associative array.
+         */
+        public function raw() {
+            return $this->results;
+        }
     }
 
 }

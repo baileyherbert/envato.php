@@ -390,6 +390,40 @@ $client->market->items();
 $client->market->site(['site' => 'codecanyon']);
 ```
 
+## Other endpoints
+
+### Get the client's identity
+
+```php
+$identity = $client->getIdentity();
+```
+
+The identity will be an object that looks like this:
+
+```php
+object(stdClass)#1 (4) {
+  ["clientId"]=> NULL
+  ["userId"]=> int(1908998)
+  ["scopes"]=> array(18) {
+    [0]=> string(7) "default"
+    [1]=> string(13) "user:username"
+    [2]=> string(10) "user:email"
+    [3]=> string(12) "user:account"
+    [4]=> string(14) "user:financial"
+    [5]=> string(17) "purchase:download"
+    [6]=> string(12) "sale:history"
+    [7]=> string(11) "sale:verify"
+  }
+  ["ttl"]=> int(315360000)
+}
+```
+
+If you only care about the `userId` property, you can retrieve it more easily:
+
+```php
+$userId = $client->getUserId(); // int(1908998)
+```
+
 ## Handling Errors & Exceptions
 
 All exceptions in this libary are under the `Herbert\Envato\Exceptions` namespace.
