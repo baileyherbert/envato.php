@@ -44,6 +44,8 @@ An API client for Envato in PHP, with simplified OAuth, token storage, and reque
   - [Get total number of users](#get-total-number-of-users)
   - [Get total number of items](#get-total-number-of-items)
   - [Get total number of items by site](#get-total-number-of-items-by-site)
+- [Other Endpoints](#other-endpoints)
+  - [Get the client's identity](#get-the-clients-identity)
 - [Handling Errors & Exceptions](#handling-errors--exceptions)
   - [Authorization Errors](#authorization-errors)
   - [Request Errors](#request-errors)
@@ -390,7 +392,7 @@ $client->market->items();
 $client->market->site(['site' => 'codecanyon']);
 ```
 
-## Other endpoints
+## Other Endpoints
 
 ### Get the client's identity
 
