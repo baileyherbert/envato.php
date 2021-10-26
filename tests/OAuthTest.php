@@ -31,6 +31,7 @@ class OAuthTest extends TestCase
         // Variables
         $token = "";
         $uri = "";
+        $auth = null;
 
         // Run the OAuth request
         try {
@@ -45,15 +46,16 @@ class OAuthTest extends TestCase
             ]);
 
             $token = $oauth->token;
+            $auth = $oauth->auth;
             $uri = $oauth->getAuthorizationUri();
         }
         catch (\Exception $e) {
             $this->fail('Got an exception: ' . $e->getMessage());
         }
 
-        $this->assertNotNull($token, 'Failed to generate a token with the current test code. Go here and get a new code: ' . $uri);
+        $this->assertNotNull($auth, 'Failed to generate a token with the current test code. Go here and get a new code: ' . $uri);
         $this->assertInstanceOf(Token::class, $token, 'Did not return an authenticated Token object.');
-        $this->assertNotNull($token->expires, 'Authenticated Token object does not have an expiration time as expected.');
-        $this->assertNotNull($token->token, 'Authenticated Token object does not have a token as expected.');
+        $this->assertNotNull($auth->expires, 'Authenticated Token object does not have an expiration time as expected.');
+        $this->assertNotNull($auth->token, 'Authenticated Token object does not have a token as expected.');
     }
 }
