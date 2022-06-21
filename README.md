@@ -40,7 +40,7 @@ An API client for Envato in PHP, with simplified OAuth, token storage, and reque
   - [Get the current user's username](#get-the-current-users-username)
   - [Get the current user's email](#get-the-current-users-email)
   - [Get the user's sales by month](#get-the-users-sales-by-month)
-  - [Get the user's statement](#get-the-users-statement)
+  - [Get the user's statement (NEW)](#get-the-users-statement-new)
 - [Market](#market)
   - [Get total number of users](#get-total-number-of-users)
   - [Get total number of items](#get-total-number-of-items)
