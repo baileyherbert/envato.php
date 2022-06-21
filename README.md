@@ -11,6 +11,7 @@ An API client for Envato in PHP, with simplified OAuth, token storage, and reque
 - [Sending Requests](#sending-requests)
   - [Getting Request Time](#getting-request-time)
   - [Rate Limiting](#rate-limiting)
+  - [Custom Requests](#custom-requests)
 - [Catalog](#catalog)
   - [Look up a public collection](#look-up-a-public-collection)
   - [Look up a single item](#look-up-a-single-item)
@@ -40,7 +41,7 @@ An API client for Envato in PHP, with simplified OAuth, token storage, and reque
   - [Get the current user's username](#get-the-current-users-username)
   - [Get the current user's email](#get-the-current-users-email)
   - [Get the user's sales by month](#get-the-users-sales-by-month)
-  - [Get the user's statement (NEW)](#get-the-users-statement-new)
+  - [Get the user's statement](#get-the-users-statement)
 - [Market](#market)
   - [Get total number of users](#get-total-number-of-users)
   - [Get total number of items](#get-total-number-of-items)
@@ -202,6 +203,19 @@ catch (TooManyRequestsException $e) {
 }
 ```
 
+### Custom Requests
+
+If there is a new endpoint which is not yet available in this package, you may use the `$request` property on the
+client to manually send the request until it is added.
+
+There are methods available for each request type (`get`, `post`, etc). Pass the path as the first parameter. Pass your
+POST body variables as the second parameter, these will also replace variables in the path denoted by `{}`.
+
+```php
+$client->request->get('/v1/market/user:{username}.json', [
+  'username' => 'collis'
+]);
+```
 
 ## Catalog
 
@@ -373,10 +387,16 @@ $client->user->email();
 $client->user->sales();
 ```
 
-### Get the user's statement (NEW)
+### Get the user's statement
 
 ```php
-$client->user->statement(['page' => 1, 'from_date' => '2021-02-01, 'to_date' => '2022-06-21', 'type' => 'Sale', 'site' => 'codecanyon']);
+$client->user->statement([
+  'page' => 1,
+  'from_date' => '2021-02-01',
+  'to_date' => '2022-06-21',
+  'type' => 'Sale',
+  'site' => 'codecanyon.net'
+]);
 ```
 
 
