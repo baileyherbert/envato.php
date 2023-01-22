@@ -48,7 +48,7 @@ namespace Herbert\Envato {
                     'details' => '/v1/market/private/user/account.json',
                     'username' => '/v1/market/private/user/username.json',
                     'email' => '/v1/market/private/user/email.json',
-                    'sales' => '/v1/market/private/user/earnings-and-sales-by-month.json',
+                    'earnings' => '/v1/market/private/user/earnings-and-sales-by-month.json',
                     'statement' => '/v3/market/user/statement',
                 ],
 
