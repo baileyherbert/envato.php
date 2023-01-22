@@ -45,7 +45,7 @@ namespace Herbert {
          * to specify why/how you're using the API. The Envato Team can see this agent and may use it to adjust your
          * rate limit.
          */
-        public $userAgent = 'https://github.com/baileyherbert/envato.php';
+        public $userAgent = 'Envato.php (https://github.com/baileyherbert/envato.php)';
 
         /**
          * The request writer instance is used to send outgoing requests to the API.
