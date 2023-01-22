@@ -40,7 +40,7 @@ An API client for Envato in PHP, with simplified OAuth, token storage, and reque
   - [Get private account details](#get-private-account-details)
   - [Get the current user's username](#get-the-current-users-username)
   - [Get the current user's email](#get-the-current-users-email)
-  - [Get the user's sales by month](#get-the-users-sales-by-month)
+  - [Get the user's earnings by month](#get-the-users-earnings-by-month)
   - [Get the user's statement](#get-the-users-statement)
 - [Market](#market)
   - [Get total number of users](#get-total-number-of-users)
@@ -48,11 +48,12 @@ An API client for Envato in PHP, with simplified OAuth, token storage, and reque
   - [Get total number of items by site](#get-total-number-of-items-by-site)
 - [Other Endpoints](#other-endpoints)
   - [Get the client's identity](#get-the-clients-identity)
-- [Handling Errors & Exceptions](#handling-errors--exceptions)
+- [Handling Errors \& Exceptions](#handling-errors--exceptions)
   - [Authorization Errors](#authorization-errors)
   - [Request Errors](#request-errors)
 - [Examples](#examples)
   - [Verifying Purchase Codes](#verifying-purchase-codes)
+- [Breaking changes in v3](#breaking-changes-in-v3)
 - [Contributors](#contributors)
 
 ## Notes
@@ -381,10 +382,10 @@ $client->user->username();
 $client->user->email();
 ```
 
-### Get the user's sales by month
+### Get the user's earnings by month
 
 ```php
-$client->user->sales();
+$client->user->earnings();
 ```
 
 ### Get the user's statement
@@ -511,6 +512,15 @@ else {
     echo $response->error;
 }
 ```
+
+## Breaking changes in v3
+
+If upgrading the package to `v3` from an earlier version, there is a single breaking change. The `user->sales()` method
+was pointing to the wrong endpoint.
+
+- The previous `$client->user->sales()` endpoint has been renamed to `$client->user->earnings()`
+- The new `$client->user->earnings()` endpoint lists your earnings by month
+- The new `$client->user->sales()` endpoint lists your individual sales
 
 ## Contributors
 
