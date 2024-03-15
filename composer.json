@@ -34,10 +34,5 @@
         "exclude": [
             "/stubs"
         ]
-    },
-    "config": {
-        "platform": {
-            "php": "5.6.0"
-        }
     }
 }
