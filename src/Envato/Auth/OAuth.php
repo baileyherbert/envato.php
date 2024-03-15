@@ -5,11 +5,10 @@ namespace Herbert\Envato\Auth {
     use GuzzleHttp\Client;
     use GuzzleHttp\Exception\GuzzleException;
 
-    use GuzzleHttp\Exception\RequestException;
     use Herbert\Envato\Exceptions\AuthenticationException;
     use Herbert\Envato\Exceptions\InvalidTokenException;
     use Herbert\Envato\Exceptions\MissingPropertyException;
-    use phpDocumentor\Reflection\DocBlock\Tags\Param;
+    use Herbert\EnvatoClient;
 
     /**
      * Utility for authenticating with the Envato API using OAuth.
@@ -177,6 +176,21 @@ namespace Herbert\Envato\Auth {
             // Create the token
             $this->generatedSession = $session;
             $this->generatedToken = new Token($session, $this->store);
+        }
+
+        /**
+         * Returns a new `EnvatoClient` instance for the current user.
+         *
+         * @return EnvatoClient|null
+         */
+        public function getClient() {
+            $token = $this->auth;
+
+            if (!is_null($token)) {
+                return new EnvatoClient($this, $this->httpOptions);
+            }
+
+            return null;
         }
 
         /**
