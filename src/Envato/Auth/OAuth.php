@@ -53,16 +53,28 @@ namespace Herbert\Envato\Auth {
         private $clientSecret;
 
         /**
+         * Additional options to pass when constructing the Guzzle client. Defaults to a blank array.
+         *
+         * Note that the Envato Client will automatically set the `user-agent` and `authorization` headers, in addition
+         * to the CA bundle `verify` and `base_uri` properties, on the client. However, you can override those defaults
+         * here.
+         *
+         * @see https://docs.guzzlephp.org/en/stable/quickstart.html#creating-a-client
+         */
+        public $httpOptions = array();
+
+        /**
          * Starts a new OAuth authentication with a personal token or a stored OAuth session.
          *
          * @param array $options An array of options, containing the client_id, client_secret, and redirect_uri.
          *   Optionally, a 'store' callback can be provided in this array to in place of the second argument.
          * @param callable|null $store Optional callable which will execute whenever the token automatically renews
          *   due to becoming expired. Use this to store the updated session in your database.
+         * @param array $httpOptions Additional options to pass when constructing the Guzzle client.
          *
          * @throws MissingPropertyException When the options array does not contain all required properties.
          */
-        public function __construct(array $options, $store = null)
+        public function __construct(array $options, $store = null, $httpOptions = array())
         {
             // Check for 'store' in the options array
             if (isset($options['store'])) {
@@ -85,6 +97,9 @@ namespace Herbert\Envato\Auth {
 
             // Store callback
             $this->store = $store;
+
+            // Store HTTP client
+            $this->httpOptions = $httpOptions;
 
             // Store parameters
             $this->clientId = $options['client_id'];
@@ -227,14 +242,32 @@ namespace Herbert\Envato\Auth {
          * @throws InvalidTokenException
          */
         private function generateToken($code) {
-            $client = new Client([
+            $overrides = $this->httpOptions;
+            $options = array(
                 'headers' => [
-                    'User-Agent' => 'https://github.com/baileyherbert/envato.php'
+                    'user-agent' => 'Envato.php (https://github.com/baileyherbert/envato.php)'
                 ],
                 'verify' => dirname(dirname(dirname(__DIR__))) . '/data/ca-bundle.crt'
-            ]);
+            );
+
+            if (is_array($overrides)) {
+                foreach ($overrides as $key => $value) {
+                    $key = strtolower($key);
+
+                    if ($key !== 'headers') {
+                        $options[$key] = $value;
+                    }
+                    else if (is_array($value)) {
+                        foreach ($value as $headerName => $headerValue) {
+                            $headerName = strtolower($headerName);
+                            $options['headers'][$headerName] = $headerValue;
+                        }
+                    }
+                }
+            }
 
             try {
+                $client = new Client($options);
                 $response = $client->request('POST', 'https://api.envato.com/token', [
                     'form_params' => [
                         'grant_type' => 'authorization_code',
