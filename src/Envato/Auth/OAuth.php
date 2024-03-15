@@ -310,7 +310,7 @@ namespace Herbert\Envato\Auth {
                     // Call the callback
                     if (is_callable($this->store)) {
                         $f = $this->store;
-                        $f(json_encode($this->session));
+                        $f($this->session);
                     }
 
                     // Return self to indicate successful token generation
