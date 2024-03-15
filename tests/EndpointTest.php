@@ -2,6 +2,9 @@
 
 namespace Herbert\Tests\Envato;
 
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 use Herbert\Envato\Auth\Token;
 use Herbert\Envato\Endpoint;
 use Herbert\Envato\ResultSet;
@@ -25,7 +28,15 @@ class EndpointTest extends TestCase
     }
 
     public function testPerformEndpoint() {
-        $client = new EnvatoClient(new Token(TEST_PERSONAL_TOKEN));
+        $body = json_encode(array('matches' => array()));
+        $response = new Response(200, [], $body);
+        $mock = new MockHandler([ $response ]);
+        $handler = HandlerStack::create($mock);
+
+        $client = new EnvatoClient(new Token(TEST_PERSONAL_TOKEN), [
+            'handler' => $handler
+        ]);
+
         $items = $client->market->items();
 
         // Must be a ResultSet
@@ -33,7 +44,15 @@ class EndpointTest extends TestCase
     }
 
     public function testPerformEndpointWithVariables() {
-        $client = new EnvatoClient(new Token(TEST_PERSONAL_TOKEN));
+        $body = json_encode(array('matches' => array()));
+        $response = new Response(200, [], $body);
+        $mock = new MockHandler([ $response ]);
+        $handler = HandlerStack::create($mock);
+
+        $client = new EnvatoClient(new Token(TEST_PERSONAL_TOKEN), [
+            'handler' => $handler
+        ]);
+
         $items = $client->market->site([
             'site' => 'themeforest'
         ]);
@@ -43,7 +62,21 @@ class EndpointTest extends TestCase
     }
 
     public function testRetrieveIdentity() {
-        $client = new EnvatoClient(new Token(TEST_PERSONAL_TOKEN));
+        $body = json_encode(array(
+            'clientId' => null,
+            'userId' => TEST_USER_ID,
+            'scopes' => array(),
+            'ttl' => 315360000
+        ));
+
+        $response = new Response(200, [], $body);
+        $mock = new MockHandler([ $response, $response ]);
+        $handler = HandlerStack::create($mock);
+
+        $client = new EnvatoClient(new Token(TEST_PERSONAL_TOKEN), [
+            'handler' => $handler
+        ]);
+
         $identity = $client->getIdentity();
         $userId = $client->getUserId();
 

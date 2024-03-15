@@ -2,8 +2,10 @@
 
 namespace Herbert\Tests\Envato;
 
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 use Herbert\Envato\Auth\OAuth;
-use Herbert\Envato\Auth\Token;
 use PHPUnit\Framework\TestCase;
 
 class OAuthTest extends TestCase
@@ -35,6 +37,17 @@ class OAuthTest extends TestCase
 
         // Run the OAuth request
         try {
+            $body = json_encode(array(
+                'refresh_token' => 'PZzGKkWLo9w7QVBLwQbOpWLksVjzjyDY',
+                'token_type' => 'bearer',
+                'access_token' => 'kh2UUTkaxqbV4zS93xMT2knjGdBbtbVq',
+                'expires_in' => 3600
+            ));
+
+            $response = new Response(200, [], $body);
+            $mock = new MockHandler([ $response ]);
+            $handler = HandlerStack::create($mock);
+
             $oauth = new OAuth([
                 'redirect_uri' => TEST_OAUTH_REDIRECT,
                 'client_id' => TEST_OAUTH_CLIENT,
@@ -43,7 +56,7 @@ class OAuthTest extends TestCase
                     $this->assertJson($session, 'The session object provided to the storage callback was not valid JSON.');
                     $this->assertNotEmpty($session, 'The session object provided to the storage callback was empty.');
                 }
-            ]);
+            ], null, ['handler' => $handler]);
 
             $token = $oauth->token;
             $auth = $oauth->auth;
@@ -54,7 +67,7 @@ class OAuthTest extends TestCase
         }
 
         $this->assertNotNull($auth, 'Failed to generate a token with the current test code. Go here and get a new code: ' . $uri);
-        $this->assertInstanceOf(Token::class, $token, 'Did not return an authenticated Token object.');
+        $this->assertTrue(is_string($token), 'Did not return an authenticated Token object.');
         $this->assertNotNull($auth->expires, 'Authenticated Token object does not have an expiration time as expected.');
         $this->assertNotNull($auth->token, 'Authenticated Token object does not have a token as expected.');
     }
