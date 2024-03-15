@@ -99,7 +99,7 @@ interface UserStub {
 	 *
 	 * @param array $parameters
 	 * @return ResultSet
-	 * @see https://build.envato.com/api/#market_getUsername
+	 * @see https://build.envato.com/api/#market_getUserUsername
 	 */
 	public function username();
 
