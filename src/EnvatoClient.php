@@ -10,16 +10,20 @@ namespace Herbert {
     use Herbert\Envato\Exceptions\NotAuthenticatedException;
     use Herbert\Envato\RequestWriter;
     use Herbert\Envato\Schema;
+    use Herbert\Envato\Stubs\CatalogStub;
+    use Herbert\Envato\Stubs\MarketStub;
+    use Herbert\Envato\Stubs\ProfileStub;
+    use Herbert\Envato\Stubs\UserStub;
 
     /**
      * Represents an authenticated connection to and interface for accessing the Envato API.
      *
      * @package Herbert
      *
-     * @property Endpoint $market
-     * @property Endpoint $catalog
-     * @property Endpoint $profile
-     * @property Endpoint $user
+     * @property MarketStub $market
+     * @property CatalogStub $catalog
+     * @property ProfileStub $profile
+     * @property UserStub $user
      */
     class EnvatoClient
     {
@@ -93,6 +97,9 @@ namespace Herbert {
             $this->schema = $o();
         }
 
+        /**
+         * Creates an endpoint helper class for the specified schema collection.
+         */
         public function __get($property) {
             $name = strtolower($property);
 
