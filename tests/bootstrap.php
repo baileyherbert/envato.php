@@ -3,7 +3,7 @@
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 if (!isset($_ENV['ENVATO_PERSONAL_TOKEN'])) {
-	echo 'ENVATO_TOKEN environment variable required';
+	echo 'ENVATO_PERSONAL_TOKEN environment variable required';
 	exit(1);
 }
 
