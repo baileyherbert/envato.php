@@ -18,7 +18,7 @@
         "guzzlehttp/guzzle": "^6.0 || ^7.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5"
+        "symfony/phpunit-bridge": "^5.2.12"
     },
     "autoload": {
         "psr-4": {
@@ -28,6 +28,11 @@
     "autoload-dev": {
         "psr-4": {
             "Herbert\\Tests\\Envato\\": "tests/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "5.6.0"
         }
     }
 }

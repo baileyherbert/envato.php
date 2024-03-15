@@ -1,0 +1,56 @@
+name: test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        versions: [
+          { phpunit: '5.7.27', php: '5.6', composer: '2.2' },
+          { phpunit: '9.5.28', php: '8.2', composer: 'latest' }
+        ]
+
+    name: php-${{ matrix.versions.php }}
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.versions.php }}
+          extensions: mbstring, intl, pdo, pdo_mysql, xml
+
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          version: ${{ matrix.versions.composer }}
+          php_version: ${{ matrix.versions.php }}
+          args: --ignore-platform-reqs
+
+      - name: Fix permissions
+        run: sudo chown $(whoami) -R ./vendor
+
+      - name: Print php versions
+        run: |
+          echo "PHP: $(php -v | head -n 1)"
+          echo "Composer: $(composer --version)"
+
+      - name: Print phpunit version
+        run: ./vendor/bin/simple-phpunit --version
+        env:
+          SYMFONY_PHPUNIT_VERSION: ${{ matrix.versions.phpunit }}
+
+      - name: Run tests
+        run: ./vendor/bin/simple-phpunit
+        env:
+          SYMFONY_PHPUNIT_VERSION: ${{ matrix.versions.phpunit }}
+          ENVATO_PERSONAL_TOKEN: ${{ secrets.ENVATO_PERSONAL_TOKEN }}

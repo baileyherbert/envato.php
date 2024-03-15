@@ -30,3 +30,4 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.lnk
+/.phpunit.result*

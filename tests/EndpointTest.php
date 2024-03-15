@@ -12,7 +12,9 @@ use PHPUnit\Framework\TestCase;
 class EndpointTest extends TestCase
 {
     public function testSchema() {
-        $schema = (new Schema())();
+        $schema = (new Schema());
+        $schema = $schema();
+
         $this->assertArrayHasKey('market', $schema, 'Got an invalid schema.');
     }
 
@@ -45,8 +47,8 @@ class EndpointTest extends TestCase
         $identity = $client->getIdentity();
         $userId = $client->getUserId();
 
-        $this->assertInternalType('int', $userId);
-        $this->assertInternalType('array', $identity->scopes);
+        $this->assertTrue(is_int($userId));
+        $this->assertTrue(is_array($identity->scopes));
         $this->assertEquals($userId, $identity->userId);
     }
 }
