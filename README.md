@@ -7,7 +7,6 @@ An API client for Envato in PHP, with simplified OAuth, token storage, and reque
 - [Authentication](#authentication)
   - [Personal Token](#personal-token)
   - [OAuth](#oauth)
-  - [Persistent OAuth](#persistent-oauth)
 - [Sending Requests](#sending-requests)
   - [Getting Request Time](#getting-request-time)
   - [Rate Limiting](#rate-limiting)
@@ -83,72 +82,58 @@ $client = new Herbert\EnvatoClient($token);
 
 ### OAuth
 
-This is a bit more complicated. Using OAuth means you'll need to redirect your users. In general, the below code will work fine. If you wish to store the OAuth session (for example, in a database or cookie) to be able to load it later, see [Persistent OAuth](#persistent-oauth).
+With OAuth, you must redirect your users to Envato's authentication screen, where they will approve your requested permissions. Then, they will be redirected back to your application
+with a `code` query parameter that can be used to obtain an API token.
+
+The following example demonstrates a complete OAuth guard that redirects the user and creates a client when they return. It also persists their credentials to a PHP session, so the
+client can be recreated and the token can be renewed in future requests.
 
 ```php
 // Generate the OAuth object
 $oauth = new Herbert\Envato\Auth\OAuth([
     'client_id' => 'Your client id',
     'client_secret' => 'Your client secret',
-    'redirect_uri' => 'https://your-redirect-uri.com/'
+    'redirect_uri' => 'https://your-redirect-uri.com/',
+    'store' => function(string $session) {
+        // Example: Save the OAuth credentials to a PHP session
+        // This is just a JSON-encoded string that looks like below:
+        // {"access_token": "...", "refresh_token": "...", "expires": 1710526960}
+
+        $_SESSION['envato_oauth'] = $session;
+    }
 ]);
 
-// Get the token (returns null if unavailable)
-$token = $oauth->auth;
+// Example: Restore existing OAuth credentials from a PHP session
+if (isset($_SESSION['envato_oauth'])) {
+    $oauth->load($_SESSION['envato_oauth']);
+}
+
+// Get the client (will return NULL if not authenticated)
+// This will auto-detect the "code" query parameter on the current request
+// If found, it will attempt to create a token and instantiate the client
+$client = $oauth->getClient();
 
 // Redirect the user if they're not authorized yet
-if (!$token) {
+if (!$client) {
     header("Location: " . $oauth->getAuthorizationUri());
     die;
 }
 
-// Create the client
-$client = new Herbert\EnvatoClient($token);
+// Example: Get the user's unique Envato Account ID
+// This sends a request to the Envato API, so don't call it often!
+$userId = $client->getUserId(); // int(1908998)
+
+// Example: Request the user's username
+// This sends a request to the Envato API, so don't call it often!
+$response = $client->user->username();
+$username = $response->username; // string(13) "baileyherbert"
 ```
 
-- The `OAuth` object contains methods to generate an authorization URI.
-- To make this example work, the `redirect_uri` should point back to the current file.
-- Calling `$oauth->token` will automatically recognize the `code` sent back by Envato and will return something truthy that you can pass into `EnvatoClient()`.
+To make this example work, create a new app at the [build.envato.com](https://build.envato.com/my-apps/) website. The `redirect_uri` should point directly to the file where the above
+code is hosted and must be exactly the same both in the code and on the registered Envato App.
 
-### Persistent OAuth
-
-In the example above, we authenticated using OAuth. This redirected the user to the Envato API for authorization, and generated a new set of access and refresh tokens.
-
-However, in many cases, we will want to _save_ this information for future use. Fortunately, this is easy to do.
-
-```php
-$oauth = new Herbert\Envato\Auth\OAuth([
-    'client_id' => 'Your client id',
-    'client_secret' => 'Your client secret',
-    'redirect_uri' => 'https://your-redirect-uri.com/'
-]);
-
-// Load an OAuth session
-if (isset($_SESSION['oauth_session'])) {
-    $oauth->load($_SESSION['oauth_session']);
-}
-
-// No saved session, so let's start a new one
-else {
-    if ($oauth->auth) {
-        // Save the OAuth session
-        $_SESSION['oauth_session'] = $oauth->session;
-    }
-    else {
-        // User is not logged in, so redirect them
-        header("Location: " . $oauth->getAuthorizationUri());
-        die;
-    }
-}
-
-// Create the client
-$client = new Herbert\EnvatoClient($oauth->auth);
-```
-
-- The `$oauth->session` member will contain a JSON string with data for the current authorization.
-- The `$oauth->load()` method accepts that JSON string and uses it to load the authorization.
-- You can create a new `EnvatoClient` after this, like normal.
-- When the access token provided by Envato expires, the client will be able to automatically create a new access token using the saved session data.
+Tokens generated in this manner will expire after one hour. However, by using the `store` callback and `load()` method as shown above, the client can automatically renew them in the
+background. When that happens, the `store` callback will be invoked again with the new credentials.
 
 ## Sending Requests
 
