@@ -317,6 +317,10 @@ namespace Herbert\Envato\Auth {
                     return $this;
                 }
                 elseif (isset($data['error_description'])) {
+                    if ($data['error_description'] === 'Code not found') {
+                        return null;
+                    }
+
                     throw new AuthenticationException(sprintf('Failed to generate token: %s', $data['error_description']));
                 }
             }
