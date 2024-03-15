@@ -1,16 +1,17 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 
-// Configure an app for testing
-// Register one here: https://build.envato.com/my-apps/
-define('TEST_OAUTH_SECRET', 'Enter a client secret here for testing');
-define('TEST_OAUTH_REDIRECT', 'https://localhost/');
-define('TEST_OAUTH_CLIENT', 'oauth-client-id123456');
+// Parameters for testing OAuth
+define('TEST_OAUTH_SECRET', 'O3Ynzq75h61UpbXSJuOPIbK2MCFsQciA');
+define('TEST_OAUTH_REDIRECT', 'http://localhost:8080/');
+define('TEST_OAUTH_CLIENT', 'temp-3ano9xnt');
 
-// Create a token with the OAuth app above and paste it here
-define('TEST_OAUTH_CODE', '');
+// Code for testing OAuth token resolution
+define('TEST_OAUTH_CODE', 'f4be726f30ffa3daabe9a6b6e6d6c361fe2486e4f04901ecf3e19c9b3834bce1');
 
-// Configure a personal token for testing
-// Register one here: https://build.envato.com/my-apps/
-define('TEST_PERSONAL_TOKEN', 'Enter a personal token here for testing');
+// Personal token for testing direct access
+define('TEST_PERSONAL_TOKEN', 'cFAKETOKENabcREPLACEMExyzcdefghj');
+
+// User ID for testing
+define('TEST_USER_ID', 1234567);

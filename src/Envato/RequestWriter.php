@@ -16,6 +16,11 @@ class RequestWriter {
 	private $client;
 
 	/**
+	 * @var Client|null
+	 */
+	private $httpClientCache;
+
+	/**
 	 * Constructs a new `RequestWriter` instance.
 	 *
 	 * @param EnvatoClient $client
@@ -102,12 +107,17 @@ class RequestWriter {
 
 		// 400 Bad Request
 		elseif ($response->getStatusCode() == 400) {
-			throw new BadRequestException();
+			throw new BadRequestException('The request was rejected because one or more parameters were invalid');
 		}
 
 		// 401 Unauthorized
 		elseif ($response->getStatusCode() == 401) {
-			throw new UnauthorizedException();
+			throw new UnauthorizedException('The token was missing or not in the correct format');
+		}
+
+		// 403 Forbidden
+		elseif ($response->getStatusCode() == 403) {
+			throw new UnauthorizedException('The token was not found or did not have sufficient permissions');
 		}
 
 		// 429 Too Many Requests
@@ -131,14 +141,37 @@ class RequestWriter {
 	 * @throws Exceptions\InvalidTokenException
 	 */
 	private function createHttpClient() {
-		return new Client([
+		if (isset($this->httpClientCache)) {
+			return $this->httpClientCache;
+		}
+
+		$overrides = $this->client->httpOptions;
+		$options = array(
 			'headers' => [
-				'User-Agent' => $this->client->userAgent,
-				'Authorization' => 'Bearer ' . $this->client->getToken()
+				'user-agent' => $this->client->userAgent,
+				'authorization' => 'Bearer ' . $this->client->getToken()
 			],
 			'verify' => dirname(dirname(__DIR__)) . '/data/ca-bundle.crt',
 			'base_uri' => $this->client->baseUri
-		]);
+		);
+
+		if (is_array($overrides)) {
+			foreach ($overrides as $key => $value) {
+				$key = strtolower($key);
+
+				if ($key !== 'headers') {
+					$options[$key] = $value;
+				}
+				else if (is_array($value)) {
+					foreach ($value as $headerName => $headerValue) {
+						$headerName = strtolower($headerName);
+						$options['headers'][$headerName] = $headerValue;
+					}
+				}
+			}
+		}
+
+		return $this->httpClientCache = new Client($options);
 	}
 
 }

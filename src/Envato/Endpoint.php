@@ -2,11 +2,6 @@
 
 namespace Herbert\Envato {
 
-    use GuzzleHttp\Client;
-    use Herbert\Envato\Exceptions\BadRequestException;
-    use Herbert\Envato\Exceptions\EndpointException;
-    use Herbert\Envato\Exceptions\TooManyRequestsException;
-    use Herbert\Envato\Exceptions\UnauthorizedException;
     use Herbert\EnvatoClient;
 
     class Endpoint

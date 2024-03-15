@@ -55,19 +55,34 @@ namespace Herbert {
         public $request;
 
         /**
+         * Additional options to pass when constructing the Guzzle client. Defaults to a blank array.
+         *
+         * Note that the Envato Client will automatically set the `user-agent` and `authorization` headers, in addition
+         * to the CA bundle `verify` and `base_uri` properties, on the client. However, you can override those defaults
+         * here.
+         *
+         * @see https://docs.guzzlephp.org/en/stable/quickstart.html#creating-a-client
+         */
+        public $httpOptions = array();
+
+        /**
          * Starts a new client connection with the specified authentication procedure. The procedure must be
          * completed prior to the constructor being called; that is, it must have already established the token
          * and expiration time.
          *
          * @param AuthProcedure $auth Procedure to authenticate with.
+         * @param array $httpOptions Additional options to pass when constructing the Guzzle client.
          *
          * @throws NotAuthenticatedException if the authentication procedure is not completed or has failed.
          */
-        public function __construct(AuthProcedure $auth) {
+        public function __construct(AuthProcedure $auth, $httpOptions = array()) {
             // Ensure that we are already authenticated
             if ($auth->token == null) {
                 throw new NotAuthenticatedException();
             }
+
+            // Store the HTTP options
+            $this->httpOptions = $httpOptions;
 
             // Store the procedure
             $this->procedure = $auth;
