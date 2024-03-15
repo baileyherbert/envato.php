@@ -2,6 +2,11 @@
 
 namespace Herbert\Envato {
 
+    /**
+     * @property array $results
+     * @property string|null $error The error message from Envato, if any.
+     * @property float $time The time it took to execute the request, in seconds.
+     */
     class ResultSet
     {
         private $results = array();
@@ -24,6 +29,10 @@ namespace Herbert\Envato {
         public function __get($property) {
             if (isset($this->$property)) {
                 return $this->$property;
+            }
+
+            if (isset($this->results[$property])) {
+                return $this->results[$property];
             }
         }
 
