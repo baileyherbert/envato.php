@@ -5,11 +5,10 @@ namespace Herbert\Envato\Auth {
     use GuzzleHttp\Client;
     use GuzzleHttp\Exception\GuzzleException;
 
-    use GuzzleHttp\Exception\RequestException;
     use Herbert\Envato\Exceptions\AuthenticationException;
     use Herbert\Envato\Exceptions\InvalidTokenException;
     use Herbert\Envato\Exceptions\MissingPropertyException;
-    use phpDocumentor\Reflection\DocBlock\Tags\Param;
+    use Herbert\EnvatoClient;
 
     /**
      * Utility for authenticating with the Envato API using OAuth.
@@ -180,6 +179,21 @@ namespace Herbert\Envato\Auth {
         }
 
         /**
+         * Returns a new `EnvatoClient` instance for the current user.
+         *
+         * @return EnvatoClient|null
+         */
+        public function getClient() {
+            $token = $this->auth;
+
+            if (!is_null($token)) {
+                return new EnvatoClient($this, $this->httpOptions);
+            }
+
+            return null;
+        }
+
+        /**
          * @param string $property
          * @return null|Token|string
          *
@@ -296,13 +310,17 @@ namespace Herbert\Envato\Auth {
                     // Call the callback
                     if (is_callable($this->store)) {
                         $f = $this->store;
-                        $f(json_encode($this->session));
+                        $f($this->session);
                     }
 
                     // Return self to indicate successful token generation
                     return $this;
                 }
                 elseif (isset($data['error_description'])) {
+                    if ($data['error_description'] === 'Code not found') {
+                        return null;
+                    }
+
                     throw new AuthenticationException(sprintf('Failed to generate token: %s', $data['error_description']));
                 }
             }
